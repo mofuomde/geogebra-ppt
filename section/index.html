@@ -1,1 +1,86 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>正方体三点动态截面</title>
+
+  <script src="https://appsforoffice.microsoft.com/lib/1/hosted/office.js"></script>
+  <script src="https://www.geogebra.org/apps/deployggb.js"></script>
+
+  <style>
+    * { box-sizing: border-box; }
+    html, body {
+      width: 100%;
+      height: 100%;
+      margin: 0;
+      overflow: hidden;
+      background: #fff;
+    }
+    #wrap, #ggb-element {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+    }
+  </style>
+</head>
+<body>
+<div id="wrap" class="ggb-container">
+  <div id="ggb-element"></div>
+</div>
+
+<script>
+function initGeoGebra() {
+  const params = {
+    id: "ggbApplet",
+    material_id: "nqyetsn8",
+    appName: "classic",
+
+    scaleContainerClass: "ggb-container",
+    autoHeight: false,
+    allowUpscale: true,
+
+    showMenuBar: false,
+    showToolBar: false,
+    showToolBarHelp: false,
+    showAlgebraInput: false,
+    showResetIcon: true,
+    showZoomButtons: false,
+
+    enableShiftDragZoom: true,
+    enableRightClick: false,
+    errorDialogsActive: false,
+    enableFileFeatures: false,
+
+    appletOnLoad: function(api) {
+      // G = 2D Graphics，T = 3D Graphics
+      try { api.setPerspective("GT"); } catch (e) {
+        try { api.evalCommand('SetPerspective("GT")'); } catch (_) {}
+      }
+
+      // 保持两个绘图区干净
+      try { api.setAxesVisible(1, false, false); } catch(e) {}
+      try { api.setGridVisible(1, false); } catch(e) {}
+      try { api.setAxesVisible(3, false, false, false); } catch(e) {}
+      try { api.setGridVisible(3, false); } catch(e) {}
+      try { api.evalCommand('SetVisibleInView(xOyPlane,-1,false)'); } catch(e) {}
+
+      setTimeout(function () {
+        try { api.recalculateEnvironments(); } catch(e) {}
+      }, 300);
+    }
+  };
+
+  const applet = new GGBApplet(params, true);
+  applet.inject("ggb-element");
+}
+
+if (window.Office && Office.onReady) {
+  Office.onReady(function() { initGeoGebra(); });
+} else {
+  window.addEventListener("load", initGeoGebra);
+}
+</script>
+</body>
+</html>
 
